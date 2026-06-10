@@ -1,0 +1,41 @@
+data cell_lines_passages;
+infile "/home/u64409342/Exercises/myfiles/file-ep7-cell_lines_commas.csv" dsd;
+input CellLine $ Organ $ passage year;
+run;
+
+proc print data = cell_lines_passages;
+run;
+
+data cell_passage_colon;
+infile "/home/u64409342/Exercises/myfiles/file-ep8.txt" dlm = ':';
+input CellLine $ Organ $ passage year;
+run;
+
+proc print data = cell_passage_colon;
+run;
+
+/* cell passages ep9.txt file 4 obs, 4 vars
+12345678901234567 ------------ Columns indicator, not part of the data
+HEK  Kidney4 2002
+NB2a Brain 29
+HaKaTSkin  6 2009
+HepG2Liver   2025
+*/
+/* Adding firstobs=2 ensures SAS ignores the numbering ruler at the top of your
+text file and starts processing directly with your HEK cell line data. Also,
+TRUNCOVER tells SAS: “If a line in a text file is shorter than what you expected,
+assign missing values to the remaining variables and do not move to the next line
+in order to find data for those variables.” */
+
+
+data cell_passage_column;
+infile "/home/u64409342/Exercises/myfiles/file-ep9.txt" truncover firstobs=2;
+input CellLine $ 1-5
+      Organ $ 6-11
+      Passage 12-13
+      Year 14-17;
+ run;
+ 
+ proc print data = cell_passage_column;
+ run;
+ 
